@@ -3,7 +3,7 @@
 This repository is the main repository for projects which are done as exercises in Java course taught by Danial Jalalnoori.
 I will grow here in Java, just sit back and watch! ;)
 
-Hello World! 2023/11/02
+First App! 2023/11/02
 ---------------------------------
 My first Java app was uploaded here on Nov 2nd, 2023 at 21:54. Let's do this!!! :D
 
