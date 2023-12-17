@@ -67,48 +67,58 @@ public class Main {
             System.out.println("2. Print Phone Book");
             System.out.println("3. Delete an Entry");
             System.out.println("0. Exit");
-            String userInput = scanner.nextLine();
 
-            switch(userInput) {
-                case "1":
-                    System.out.println("Please Enter the Name:");
-                    String name = scanner.nextLine();
-                    System.out.println("Please Enter the Number:");
-                    String number = scanner.nextLine();
-                    phoneBook.addContact(name, number);
-                    break;
-                case "2":
-                    if(phoneBook.isEmpty()) {
-                        System.out.println("Phone Book Is Empty!");
-                    } else {
-                        phoneBook.printContacts();
-                    }
-                    break;
-                case "3":
-                    if(phoneBook.isEmpty()) {
-                        System.out.println("Phone Book Is Empty!");
-                    } else {
-                        phoneBook.printContacts();
-                        System.out.println("Enter the ID You Want to Delete:");
-                        while(true) {
-                            if(scanner.hasNextInt()) {
-                                phoneBook.deleteContact(scanner.nextInt() - 1);
-                                break;
+            while(true) {
+                if(scanner.hasNextInt()) {
+                    int userInput = scanner.nextInt();
+                    scanner.nextLine();
+
+                    switch(userInput) {
+                        case 1:
+                            System.out.print("Please Enter the Name: ");
+                            String name = scanner.nextLine();
+                            System.out.print("Please Enter the Number: ");
+                            String number = scanner.nextLine();
+                            phoneBook.addContact(name, number);
+                            break;
+                        case 2:
+                            if(phoneBook.isEmpty()) {
+                                System.out.println("Phone Book Is Empty!");
                             } else {
-                                System.out.println("Please Enter a Number!");
-                                scanner.next();
+                                phoneBook.printContacts();
                             }
-                        }
+                            break;
+                        case 3:
+                            if(phoneBook.isEmpty()) {
+                                System.out.println("Phone Book Is Empty!");
+                            } else {
+                                phoneBook.printContacts();
+                                System.out.println("Enter the ID You Want to Delete:");
+                                while(true) {
+                                    if(scanner.hasNextInt()) {
+                                        phoneBook.deleteContact(scanner.nextInt() - 1);
+                                        break;
+                                    } else {
+                                        System.out.println("Please Enter a Number!");
+                                        scanner.nextLine();
+                                    }
+                                }
+                            }
+                            break;
+                        case 0:
+                            System.out.println("See You Soon! ;)");
+                            scanner.close();
+                            System.exit(0);
+                            break;
+                        default:
+                            System.out.println("Please Enter a Valid Number!");
+                            break;
                     }
                     break;
-                case "0":
-                    System.out.println("See You Soon! ;)");
-                    scanner.close();
-                    System.exit(0);
-                    break;
-                default:
-                    System.out.println("Please Enter a Valid Number!");
-                    break;
+                } else {
+                    System.out.println("Please Enter a Number!");
+                    scanner.nextLine();
+                }
             }
         }
     }
