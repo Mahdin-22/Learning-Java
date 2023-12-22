@@ -1,4 +1,4 @@
-package com.learning.app02_helloWorld;
+package com.learning.app02helloworld;
 
 import java.util.Scanner;
 

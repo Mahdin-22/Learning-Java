@@ -1,4 +1,4 @@
-package com.learning.app03_phoneBook;
+package com.learning.app03phonebook;
 
 import java.util.ArrayList;
 import java.util.Scanner;

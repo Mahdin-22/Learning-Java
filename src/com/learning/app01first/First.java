@@ -1,4 +1,4 @@
-package com.learning.app01_first;
+package com.learning.app01first;
 
 public class First {
     public static void main(String[] args) {
