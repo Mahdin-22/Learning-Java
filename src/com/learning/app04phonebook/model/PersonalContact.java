@@ -8,11 +8,21 @@ public class PersonalContact extends Contact {
         super(name, number, ContactType.PERSONAL);
     }
 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + super.name + '\'' +
+                ", last name='" + lastName + '\'' +
+                ", number='" + super.number + '\'' +
+                ", type=" + super.type +
+                '}';
+    }
+
     public String getLastName() {
         return lastName;
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        this.lastName = capitalizeFirstLetter(lastName);
     }
 }

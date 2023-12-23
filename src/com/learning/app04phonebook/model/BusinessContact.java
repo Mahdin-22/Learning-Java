@@ -8,6 +8,16 @@ public class BusinessContact extends Contact {
         super(name, number, ContactType.BUSINESS);
     }
 
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "name='" + super.name + '\'' +
+                ", number='" + super.number + '\'' +
+                ", fax number='" + fax + '\'' +
+                ", type=" + super.type +
+                '}';
+    }
+
     public String getFax() {
         return fax;
     }

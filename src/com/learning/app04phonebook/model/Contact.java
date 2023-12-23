@@ -1,34 +1,25 @@
 package com.learning.app04phonebook.model;
 
 public abstract class Contact {
-    private String name;
-    private String number;
-    private final ContactType type;
+    protected String name;
+    protected String number;
+    protected ContactType type;
 
     public Contact(String name, String number, ContactType type) {
-        this.name = name;
+        this.name = capitalizeFirstLetter(name);
         this.number = number;
         this.type = type;
     }
 
-    @Override
-    public String toString() {
-        return "Contact{" +
-                "name='" + name + '\'' +
-                ", number='" + number + '\'' +
-                ", type=" + type +
-                '}';
-    }
-
-    public ContactType getType() {
-        return type;
-    }
-
-    private String capitalizeFirstLetter(String str) {
+    protected String capitalizeFirstLetter(String str) {
         if(str != null && !str.isEmpty()) {
             return Character.toUpperCase(str.charAt(0)) + str.substring(1);
         }
         return str;
+    }
+
+    /*public ContactType getType() {
+        return type;
     }
 
     public String getName() {
@@ -45,5 +36,5 @@ public abstract class Contact {
 
     public void setNumber(String number) {
         this.number = number;
-    }
+    }*/
 }
