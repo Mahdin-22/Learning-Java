@@ -17,3 +17,13 @@ We were asked to make an app with 3 options: 1) Add new entry 2) Print whole pho
 I added another option to delete an entry and I almost spend 7-8 hours on it. It's OK but whenever "deleteContact" method is called, 4-option menu is printed twice.
 
 Phone Book updated; Problem solved. 18:13
+
+Start Object-Oriented Phone Book! 2023/12/24
+---------------------------------
+I couldn't do this session homework completely, just the matter of time!
+
+Customers Application! 2024/01/13
+---------------------------------
+After two weeks I remade my application and now I have a limited customer application.
+I tried to search all fields but I could do it just for parent class (Customer).
+How can I search LegalCustomer & RealCustomer fields?
