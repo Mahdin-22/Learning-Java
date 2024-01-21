@@ -16,6 +16,12 @@ public class RealCustomer extends Customer {
                 "Birthday Date=" + birthDate;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof RealCustomer
+                && ((RealCustomer) obj).getFullName().equals(getFullName());
+    }
+
     public String getBirthDate() {
         return birthDate;
     }

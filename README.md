@@ -27,3 +27,7 @@ Customers Application! 2024/01/13
 After two weeks I remade my application and now I have a limited customer application.
 I tried to search all fields but I could do it just for parent class (Customer).
 How can I search LegalCustomer & RealCustomer fields?
+
+Handle Exceptions! 2023/12/24
+---------------------------------
+I tried handle as many exceptions as I can!

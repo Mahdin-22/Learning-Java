@@ -16,6 +16,12 @@ public class LegalCustomer extends Customer {
                 "Job Title=" + jobTitle;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof LegalCustomer
+                && ((LegalCustomer) obj).getFullName().equals(getFullName());
+    }
+
     public String getJobTitle() {
         return jobTitle;
     }

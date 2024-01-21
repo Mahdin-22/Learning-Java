@@ -2,6 +2,7 @@ package com.learning.app05customers.view.components;
 
 import com.learning.app05customers.model.Customer;
 import com.learning.app05customers.model.CustomerType;
+import com.learning.app05customers.service.exceptions.WrongInputException;
 import com.learning.app05customers.util.ScannerWrapper;
 
 import java.util.function.Function;
@@ -15,10 +16,11 @@ public abstract class AbstractCustomerUI {
         this.scannerWrapper = ScannerWrapper.getInstance();
     }
 
-    public static AbstractCustomerUI fromCustomerType(CustomerType customerType) {
+    public static AbstractCustomerUI fromCustomerType(CustomerType customerType) throws WrongInputException {
         return switch (customerType) {
             case REAL -> new RealCustomerUI();
             case LEGAL -> new LegalCustomerUI();
+            default -> throw new WrongInputException();
         };
     }
 

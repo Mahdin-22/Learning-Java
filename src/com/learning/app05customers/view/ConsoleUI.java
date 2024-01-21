@@ -3,6 +3,7 @@ package com.learning.app05customers.view;
 import com.learning.app05customers.model.Customer;
 import com.learning.app05customers.model.CustomerType;
 import com.learning.app05customers.service.CustomerServices;
+import com.learning.app05customers.service.exceptions.*;
 import com.learning.app05customers.service.impl.CustomerServicesImpl;
 import com.learning.app05customers.util.ScannerWrapper;
 import com.learning.app05customers.view.components.AbstractCustomerUI;
@@ -29,15 +30,19 @@ public class ConsoleUI implements AutoCloseable {
             printMenu();
             userChoice = scannerWrapper.getUserInput("Please Choose an Option:", Integer::valueOf);
 
-            switch (userChoice) {
-                case 1 -> addCustomer();
-                case 2 -> printAllCustomers();
-                case 3 -> searchCustomers();
-                case 4 -> editCustomer();
-                case 5 -> deleteCustomer();
-                case 6 -> printAllDeletedCustomers();
-                case 0 -> System.out.println("See You Soon! ;)");
-                default -> wrongInput();
+            try {
+                switch (userChoice) {
+                    case 1 -> addCustomer();
+                    case 2 -> printAllCustomers();
+                    case 3 -> searchCustomers();
+                    case 4 -> editCustomer();
+                    case 5 -> deleteCustomer();
+                    case 6 -> printAllDeletedCustomers();
+                    case 0 -> System.out.println("See You Soon! ;)");
+                    default -> wrongInput();
+                }
+            } catch (BaseException exception) {
+                System.out.println(exception.getMessage());
             }
         } while(userChoice != 0);
     }
@@ -58,7 +63,7 @@ public class ConsoleUI implements AutoCloseable {
         System.out.println("0. Exit Application");
     }
 
-    private void addCustomer() {
+    private void addCustomer() throws DuplicatedCustomerException, InvalidCustomerTypeException, WrongInputException {
         int userChoice;
 
         do {
@@ -66,10 +71,9 @@ public class ConsoleUI implements AutoCloseable {
             userChoice = scannerWrapper.getUserInput("Please Choose Customer Type:", Integer::valueOf);
 
             if(userChoice != 0) {
-                Customer customer = AbstractCustomerUI
+                customerServices.addCustomer(AbstractCustomerUI
                         .fromCustomerType(CustomerType.fromValue(userChoice))
-                        .generateCustomer();
-                customerServices.addCustomer(customer);
+                        .generateCustomer());
                 System.out.println("New Customer Added Successfully!");
             } else {
                 System.out.println("Adding Stopped!");
@@ -87,7 +91,7 @@ public class ConsoleUI implements AutoCloseable {
     private void printAllCustomers() {
         List<Customer> allCustomers = customerServices.getActiveCustomers();
         if(allCustomers.isEmpty()) {
-            System.out.println("No Customer Yet!");
+            System.out.println("No Customers Yet!");
         } else {
             System.out.println("All Customers:");
             for (Customer customer : allCustomers) {
@@ -96,27 +100,32 @@ public class ConsoleUI implements AutoCloseable {
         }
     }
 
-    private void searchCustomers() {
+    private void searchCustomers() throws CustomerNotFoundException {
         String searchCase = scannerWrapper.getUserInput("Enter a Clause to Search: ", Function.identity());
         List<Customer> customers = customerServices.searchCustomers(searchCase);
         customers.forEach(System.out::println);
     }
 
-    private void editCustomer() {
+    private void editCustomer() throws CustomerNotFoundException, WrongInputException {
         Integer id = scannerWrapper.getUserInput("Enter the ID You Want to Edit: (or 0 to cancel editing)", Integer::valueOf);
-        Customer customer = customerServices.getCustomer(id);
-        System.out.println(customer);
-        AbstractCustomerUI
-                .fromCustomerType(customer.getCustomerType())
-                .editCustomer(customer);
+        if (id != 0) {
+            Customer customer = customerServices.getCustomer(id);
+            System.out.println(customer);
+            AbstractCustomerUI
+                    .fromCustomerType(customer.getCustomerType())
+                    .editCustomer(customer);
+        } else {
+            System.out.println("Editing Stopped!");
+        }
     }
 
-    private void deleteCustomer() {
+    private void deleteCustomer() throws CustomerNotFoundException {
         Integer id = scannerWrapper.getUserInput("Enter the ID You Want to Delete: (or 0 to cancel deleting)", Integer::valueOf);
-
         if(id != 0) {
             customerServices.deleteCustomer(id);
             System.out.println("Customer Deleted!");
+        } else {
+            System.out.println("Deleting Stopped!");
         }
     }
 
@@ -132,8 +141,8 @@ public class ConsoleUI implements AutoCloseable {
         }
     }
 
-    private void wrongInput() {
-        System.out.println("Please Enter a Valid Number!");
+    private void wrongInput() throws WrongInputException {
+        throw new WrongInputException();
     }
     
     @Override

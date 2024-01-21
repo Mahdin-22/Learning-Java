@@ -2,6 +2,8 @@ package com.learning.app05customers.service.impl;
 
 import com.learning.app05customers.model.Customer;
 import com.learning.app05customers.service.CustomerServices;
+import com.learning.app05customers.service.exceptions.CustomerNotFoundException;
+import com.learning.app05customers.service.exceptions.DuplicatedCustomerException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +27,10 @@ public class CustomerServicesImpl implements CustomerServices {
     private final ArrayList<Customer> customers = new ArrayList<>();
 
     @Override
-    public void addCustomer(Customer customer) {
+    public void addCustomer(Customer customer) throws DuplicatedCustomerException {
+        customers.stream()
+                .filter(it -> it.equals(customer))
+                .findAny().orElseThrow(DuplicatedCustomerException::new);
         customers.add(customer);
     }
 
@@ -37,29 +42,30 @@ public class CustomerServicesImpl implements CustomerServices {
     }
 
     @Override
-    public List<Customer> searchCustomers(String searchCase) {
-         return customers.stream()
-                 .filter(customer -> customer.getFullName().contains(searchCase)
-                                    || customer.getNumber().contains(searchCase)
-                                    || customer.getEmail().contains(searchCase))
-                 .collect(Collectors.toList());
+    public List<Customer> searchCustomers(String searchCase) throws CustomerNotFoundException {
+        List<Customer> foundCustomers = customers.stream()
+                .filter(customer -> customer.getFullName().contains(searchCase)
+                        || customer.getNumber().contains(searchCase)
+                        || customer.getEmail().contains(searchCase))
+                .collect(Collectors.toList());
+        if (foundCustomers.isEmpty())
+            throw new CustomerNotFoundException();
+        else
+            return foundCustomers;
         /*But how to search if birthDate & jobTitle contains searchCase???*/
     }
 
     @Override
-    public Customer getCustomer(Integer id) {
+    public Customer getCustomer(Integer id) throws CustomerNotFoundException {
         return customers.stream()
                 .filter(customer -> !customer.getDeleted())
                 .filter(customer -> customer.getId().equals(id))
-                .findFirst().get();
+                .findFirst().orElseThrow(CustomerNotFoundException::new);
     }
 
     @Override
-    public void deleteCustomer(Integer id) {
-        customers.stream()
-                .filter(customer -> !customer.getDeleted())
-                .filter(customer -> customer.getId().equals(id))
-                .forEach(customer -> customer.setDeleted(true));
+    public void deleteCustomer(Integer id) throws CustomerNotFoundException {
+        getCustomer(id).setDeleted(true);
     }
 
     @Override
