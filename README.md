@@ -31,3 +31,7 @@ How can I search LegalCustomer & RealCustomer fields?
 Handle Exceptions! 2023/12/24
 ---------------------------------
 I tried handle as many exceptions as I can!
+
+Maven! 2024/02/02
+---------------------------------
+Project Converted to Maven! And Some Plugins Applied.
